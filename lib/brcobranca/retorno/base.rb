@@ -10,7 +10,8 @@ module Brcobranca
       # Campos especificos para cobranca hibrida
       attr_accessor :tipo_chave_dict,
                     :codigo_chave_dict,
-                    :txid
+                    :txid,
+                    :qrcode_emv
     end
   end
 end
