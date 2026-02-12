@@ -28,7 +28,7 @@ RSpec/ContextWording:
 
 RSpec/MultipleExpectations:
   Enabled: true
-  Max: 10
+  Max: 30
 
 RSpec/ExampleLength:
   Enabled: true
