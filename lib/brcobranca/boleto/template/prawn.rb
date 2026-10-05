@@ -23,6 +23,7 @@ module Brcobranca
         WIDTH_CELLS_RIGHT = 135
         PADDING_CELLS_RIGHT = 30
         QRCODE_WIDTH = WIDTH_CELLS_RIGHT
+        FORMATOS = %i[pdf prawn].freeze
 
         # Gera o boleto em PDF utilizando a gem Prawn
         #
@@ -44,7 +45,7 @@ module Brcobranca
         end
 
         def respond_to_missing?(method_name, include_private = false)
-          method_name.to_s.start_with?('to_') || super
+          formato_dinamico(method_name) || super
         end
 
         #  Cria o métodos dinâmicos (to_pdf, to_prawn) com todos os fomatos válidos.
@@ -54,15 +55,28 @@ module Brcobranca
         #
         # @return [Stream, Prawn::Document]
         def method_missing(name, *args)
-          method = name.to_s
-          if method.start_with?('to_')
-            modelo_generico([self], (args.first || {}).merge!(formato: method[3..].to_sym))
+          formato = formato_dinamico(name)
+          if formato
+            modelo_generico([self], (args.first || {}).merge(formato: formato))
           else
             super
           end
         end
 
         private
+
+        # Retorna o formato correspondente a um método dinâmico (ex.: :to_pdf => :pdf).
+        # Somente formatos suportados são reconhecidos, para não interceptar conversões
+        # implícitas do Ruby como to_ary, to_hash e to_str.
+        #
+        # @return [Symbol, nil]
+        def formato_dinamico(method_name)
+          method = method_name.to_s
+          return unless method.start_with?('to_')
+
+          formato = method[3..].to_sym
+          formato if FORMATOS.include?(formato)
+        end
 
         # Retorna um stream pronto para gravação em arquivo.
         #
@@ -72,7 +86,7 @@ module Brcobranca
         def modelo_generico(boletos, options = {})
           create_doc
           boletos.each { |boleto| desenha(boleto) }
-          formato = options.delete(:formato) || Brcobranca.configuration.formato
+          formato = options[:formato] || Brcobranca.configuration.formato
 
           if formato == :pdf
             @doc.render
