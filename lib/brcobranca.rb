@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'fast_blank'
 require 'brcobranca/calculo'
 require 'brcobranca/limpeza'
 require 'brcobranca/formatacao'
@@ -7,8 +8,8 @@ require 'brcobranca/formatacao_string'
 require 'brcobranca/calculo_data'
 require 'brcobranca/currency'
 require 'brcobranca/validations'
+require 'brcobranca/parse_line'
 require 'brcobranca/util/date'
-require 'fast_blank'
 
 module Brcobranca
   # Exception lançada quando algum tipo de boleto soicitado ainda não tiver sido implementado.
@@ -16,6 +17,9 @@ module Brcobranca
   end
 
   class ValorInvalido < StandardError
+  end
+
+  class MalformedLayoutOrLine < StandardError
   end
 
   # Exception lançada quando os dados informados para o boleto estão inválidos.
@@ -149,6 +153,8 @@ module Brcobranca
 
     module Cnab240
       autoload :Base,          'brcobranca/retorno/cnab240/base'
+      autoload :RegistrosTU,   'brcobranca/retorno/cnab240/registros_tu'
+      autoload :Itau,          "brcobranca/retorno/cnab240/itau"
       autoload :Santander,     'brcobranca/retorno/cnab240/santander'
       autoload :Sicredi,       'brcobranca/retorno/cnab240/sicredi'
       autoload :Sicoob,        'brcobranca/retorno/cnab240/sicoob'
@@ -187,6 +193,7 @@ module Brcobranca
       autoload :Base,               'brcobranca/remessa/cnab240/base'
       autoload :BaseCorrespondente, 'brcobranca/remessa/cnab240/base_correspondente'
       autoload :Caixa,              'brcobranca/remessa/cnab240/caixa'
+      autoload :Itau,               "brcobranca/remessa/cnab240/itau"
       autoload :BancoBrasil,        'brcobranca/remessa/cnab240/banco_brasil'
       autoload :Santander,          'brcobranca/remessa/cnab240/santander'
       autoload :Sicoob,             'brcobranca/remessa/cnab240/sicoob'
@@ -201,5 +208,6 @@ module Brcobranca
   module Util
     autoload :Empresa, 'brcobranca/util/empresa'
     autoload :Errors, 'brcobranca/util/errors'
+    autoload :Itau, "brcobranca/util/itau"
   end
 end

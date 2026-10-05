@@ -14,7 +14,7 @@ Gem::Specification.new do |gem|
   gem.homepage = 'https://github.com/kivanio/brcobranca'
   gem.files = Dir['Rakefile', '{lib}/**/*', 'README*', 'LICENSE*', 'CHANGELOG*', 'History*']
   gem.require_paths = ['lib']
-  gem.required_ruby_version = '>= 2.7.0'
+  gem.required_ruby_version = '>= 3.3.0'
 
   gem.metadata = {
     'homepage_uri' => 'https://github.com/kivanio/brcobranca',
@@ -28,7 +28,6 @@ Gem::Specification.new do |gem|
   gem.requirements = ['GhostScript > 9.0, para gerar PDF e código de Barras']
 
   gem.add_dependency 'fast_blank'
-  gem.add_dependency 'parseline', '>= 1.0.3'
   gem.add_dependency 'rghost', '= 0.9.8'
   gem.add_dependency 'rghost_barcode', '>= 0.9'
 

@@ -6,7 +6,7 @@ require:
 
 AllCops:
   NewCops: enable
-  TargetRubyVersion: 2.7
+  TargetRubyVersion: 3.3
   SuggestExtensions: false
 
 Style/FrozenStringLiteralComment:
@@ -34,3 +34,21 @@ Metrics/AbcSize:
 Metrics/ModuleLength:
   Exclude:
     - "lib/brcobranca/boleto/template/*.rb"
+
+Style/SuperArguments:
+  Enabled: false
+
+RSpec/ContextWording:
+  Enabled: true
+  Prefixes:
+    - quando
+    - com
+    - sem
+
+RSpec/MultipleExpectations:
+  Enabled: true
+  Max: 10
+
+RSpec/ExampleLength:
+  Enabled: true
+  Max: 25
