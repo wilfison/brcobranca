@@ -35,6 +35,10 @@ Metrics/ModuleLength:
   Exclude:
     - "lib/brcobranca/boleto/template/*.rb"
 
+Metrics/ClassLength:
+  Exclude:
+    - "lib/brcobranca/boleto/template/*.rb"
+
 Style/SuperArguments:
   Enabled: false
 
