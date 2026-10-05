@@ -377,12 +377,13 @@ module Brcobranca
             module_size = QRCODE_WIDTH / qr_code_matrix.length.to_f
 
             @doc.bounding_box([pos_x, pos_y], width: QRCODE_WIDTH, height: QRCODE_WIDTH) do
+              @doc.fill_color(COLORS[:dark])
+
               qr_code_matrix.each_with_index do |row, y|
                 row.each_with_index do |module_filled, x|
-                  if module_filled
-                    @doc.fill_color(COLORS[:dark])
-                    @doc.fill_rectangle([x * module_size, -y * module_size], module_size, module_size)
-                  end
+                  next unless module_filled
+
+                  @doc.fill_rectangle([x * module_size, -y * module_size], module_size, module_size)
                 end
               end
             end
@@ -569,7 +570,7 @@ module Brcobranca
               0, pos_y, instrucoes_height, width_big,
               label: 'Instruções (Instruções de responsabilidade do Beneficiário. Qualquer dúvida sobre este boleto, contate o beneficiário)'
             ) do
-              instrucoes = (1..6).filter_map { |i| @boleto.public_send("instrucao#{i}") }.join("\n")
+              instrucoes = (1..7).filter_map { |i| @boleto.public_send("instrucao#{i}") }.join("\n")
 
               @doc.text_box(
                 instrucoes,
