@@ -1,6 +1,13 @@
 # frozen_string_literal: true
 
 shared_examples_for 'busca_logotipo' do
+  around do |example|
+    gerador_original = Brcobranca.configuration.gerador
+    example.run
+  ensure
+    Brcobranca.configuration.gerador = gerador_original
+  end
+
   it 'para layout padrão' do
     boleto_novo = described_class.new
 
@@ -17,9 +24,6 @@ shared_examples_for 'busca_logotipo' do
     expect(boleto_novo.logotipo).to match(/\.eps\z/)
     expect(File).to exist(boleto_novo.logotipo)
     expect(File.stat(boleto_novo.logotipo)).not_to be_zero
-
-    # Restaura o gerador para o valor padrão após os testes
-    Brcobranca.configuration.gerador = :rghost
   end
 
   it 'para layout com prawn' do
@@ -29,8 +33,5 @@ shared_examples_for 'busca_logotipo' do
     expect(boleto_novo.logotipo).to match(/\.png\z/)
     expect(File).to exist(boleto_novo.logotipo)
     expect(File.stat(boleto_novo.logotipo)).not_to be_zero
-
-    # Restaura o gerador para o valor padrão após os testes
-    Brcobranca.configuration.gerador = :rghost
   end
 end
