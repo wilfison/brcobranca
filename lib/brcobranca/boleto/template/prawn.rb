@@ -564,8 +564,8 @@ module Brcobranca
             # -------------------------
             # Linha 5
             # -------------------------
-            instrucoes_height = 116
-            instrucoes_right_cells_height = instrucoes_height / 4
+            instrucoes_right_cells_height = HEIGHT_CELLS
+            instrucoes_height = instrucoes_right_cells_height * 5
             pos_x, _pos_y = desenha_celula(
               0, pos_y, instrucoes_height, width_big,
               label: 'Instruções (Instruções de responsabilidade do Beneficiário. Qualquer dúvida sobre este boleto, contate o beneficiário)'
@@ -599,7 +599,15 @@ module Brcobranca
               pos_x, pos_y,
               instrucoes_right_cells_height,
               WIDTH_CELLS_RIGHT,
-              label: '(+) Juros/Multa',
+              label: '(+) Mora/Multa',
+              padding_start: PADDING_CELLS_RIGHT
+            )
+
+            _pos_x, pos_y = desenha_celula(
+              pos_x, pos_y,
+              instrucoes_right_cells_height,
+              WIDTH_CELLS_RIGHT,
+              label: '(+) Outros acréscimos',
               padding_start: PADDING_CELLS_RIGHT
             )
 
